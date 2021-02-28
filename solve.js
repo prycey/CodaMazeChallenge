@@ -39,6 +39,65 @@ function tile_idx(maze, x, y) {
     return x + y * maze.width;
 }
 
+/*
+function tile_is_wall(id, idx) {
+    let c = id[Math.floor(idx / 4)];
+    let v;
+    switch (c) {
+        case '0':
+            v = 0;
+            break;
+        case '1':
+            v = 1;
+            break;
+        case '2':
+            v = 2;
+            break;
+        case '3':
+            v = 3;
+            break;
+        case '4':
+            v = 4;
+            break;
+        case '5':
+            v = 5;
+            break;
+        case '6':
+            v = 6;
+            break;
+        case '7':
+            v = 7;
+            break;
+        case '8':
+            v = 8;
+            break;
+        case '9':
+            v = 9;
+            break;
+        case 'a':
+            v = 10;
+            break;
+        case 'b':
+            v = 11;
+            break;
+        case 'c':
+            v = 12;
+            break;
+        case 'd':
+            v = 13;
+            break;
+        case 'e':
+            v = 14;
+            break;
+        case 'f':
+            v = 15;
+            break;
+        default:
+            v = 0;
+    }
+    return ((v >> (idx % 4)) & 1) == 0;
+}*/
+
 async function get_tile(maze, x, y) {
     let idx = tile_idx(maze, x, y);
     let tile;
@@ -51,6 +110,24 @@ async function get_tile(maze, x, y) {
         };
     }
     if (maze.tiles[idx] === undefined) {
+        /*if (tile_is_wall(maze.id, idx)) {
+            tile = {
+                x: x,
+                y: y,
+                wall: true
+            };
+        }
+        else {
+            tile = {
+                x: x,
+                y: y,
+                wall: false,
+                explored: false,
+                min_dist: Number.MAX_SAFE_INTEGER,
+                heuristic: maze.width + maze.height - x - y,
+                prev_tile: -1
+            };
+        }*/
         while (true) {
             let tile_promise = fetch(`https://maze.coda.io/maze/${maze.id}/check?x=${x}&y=${y}`, {
                 method: "GET"
@@ -126,7 +203,6 @@ function find_soln(maze) {
         }
 
         let cb = function(res) {
-            //console.log("res: ", res);
             if (res.status === 200) {
                 console.log("valid!");
             }
@@ -148,7 +224,6 @@ function find_soln(maze) {
     }
     else {
         let cb = function(res) {
-            console.log("res: ", res);
             if (res.status === 200) {
                 console.log("valid!");
             }
@@ -243,11 +318,10 @@ function solve_maze(width, height, id) {
         explored: false,
         min_dist: 0,
         heuristic: width + height,
-        prev_tile: -1,
-        id: id
+        prev_tile: -1
     };
     pq.push(mazeTiles[0]);
-    console.log(maze);
+    console.log('maze id:', maze.id);
 
     discover_next_tile(maze);
 }
