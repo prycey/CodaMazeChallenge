@@ -1,0 +1,3 @@
+[submodule "js-binaryheap-decreasekey"]
+	path = js-binaryheap-decreasekey
+	url = https://github.com/rombdn/js-binaryheap-decreasekey.git
