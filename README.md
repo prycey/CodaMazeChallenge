@@ -1,7 +1,7 @@
 # CodaMazeChallenge
-instructions
-git clone https://github.com/prycey/CodaMazeChallenge.git
-cd dir
-npm init
-npm install
-node solver.js
+instructions <br>
+git clone https://github.com/prycey/CodaMazeChallenge.git <br>
+cd dir <br>
+npm init <br>
+npm install <br>
+node solver.js <br>
